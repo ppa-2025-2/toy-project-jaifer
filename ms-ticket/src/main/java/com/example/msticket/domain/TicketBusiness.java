@@ -1,39 +1,3 @@
-/*package com.example.msticket.domain;
-import java.time.LocalDateTime;
-import com.example.msticket.controller.dto.UserCreatedEventDTO;
-import com.example.msticket.domain.stereotype.Business;
-import com.example.msticket.repository.TicketRepository;
-import com.example.msticket.repository.entity.Ticket;
-import com.example.msticket.repository.entity.TicketType;
-
-@Business
-public class TicketBusiness {
-
-    private final TicketRepository ticketRepository;
-
-    public TicketBusiness(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
-
-    public void createOnboardingAndWorkstationTickets(UserCreatedEventDTO user) {
-        Ticket onboarding = new Ticket();
-        onboarding.setUserId(user.getId());
-        onboarding.setType(TicketType.ONBOARDING);
-        onboarding.setDescription("Onboarding do usuário " + user.getName());
-        onboarding.setStatus("OPEN");
-        onboarding.setCreatedAt(LocalDateTime.now());
-
-        Ticket workstation = new Ticket();
-        workstation.setUserId(user.getId());
-        workstation.setType(TicketType.WORKSTATION);
-        workstation.setDescription("Alocação de estação de trabalho para " + user.getName());
-        workstation.setStatus("OPEN");
-        workstation.setCreatedAt(LocalDateTime.now());
-
-        ticketRepository.save(onboarding);
-        ticketRepository.save(workstation);
-    }
-}*/
 
 
 
@@ -56,11 +20,7 @@ public class TicketBusiness {
         this.ticketRepository = ticketRepository;
     }
 
-    /**
-     * Cria automaticamente dois tickets quando um novo usuário é criado:
-     * - Ticket de ONBOARDING
-     * - Ticket de WORKSTATION
-     */
+   
     public void createOnboardingAndWorkstationTickets(UserCreatedEventDTO user) {
         // Ticket de onboarding
         Ticket onboarding = createBaseTicket(user);

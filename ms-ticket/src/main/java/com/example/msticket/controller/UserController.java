@@ -36,9 +36,7 @@ public class UserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
     public void newUser(@RequestBody NewUserDTO newUser) {
-        // O Controller pode ter lógica?
-        // Pode, lógica de controle (roteamento).
-        // O Controller delega para o Domain Business
+        
         userBusiness.cadastrarUsuario(newUser);
     }
 

@@ -15,7 +15,7 @@ public class UserCreatedEventDTO {
         this.email = email;
     }
 
-    // Getters e Setters
+    
 
     public Long getId() {
         return id;

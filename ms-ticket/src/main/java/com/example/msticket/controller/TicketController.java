@@ -1,96 +1,52 @@
-/*package com.example.msticket.controller;
+package com.example.msticket.controller;
 
-import com.example.msticket.controller.dto.UserCreatedEventDTO;
-import com.example.msticket.domain.TicketBusiness;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import com.example.msticket.repository.TicketRepository;
+import com.example.msticket.repository.entity.Ticket;
+import com.example.msticket.repository.entity.TicketType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller responsável pelos endpoints do ms-ticket.
- * Aqui ficam:
- * - endpoints de CRUD de tickets (se você quiser)
- * - endpoint chamado pelo ms-user quando um novo usuário é criado
- */
-/*@RestController
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RestController
 @RequestMapping("/tickets")
 public class TicketController {
 
-    private final TicketBusiness ticketBusiness;
+    @Autowired
+    private TicketRepository ticketRepository;
 
-    public TicketController(TicketBusiness ticketBusiness) {
-        this.ticketBusiness = ticketBusiness;
+    @GetMapping
+    public List<Ticket> listTickets() {
+        return ticketRepository.findAll();
     }
 
-    /**
-     * Endpoint chamado pelo ms-user quando um novo usuário é criado.
-     *
-     * Espera um JSON como:
-     * {
-     * "userId": 1,
-     * "name": "Fulano",
-     * "email": "fulano@empresa.com",
-     * "role": "DEV"
-     * }
-     *
-     * A partir disso, o ms-ticket deve criar:
-     * - 1 ticket de onboarding
-     * - 1 ticket para alocação de estação de trabalho
-     */
-   /* @PostMapping("/user-created")
-    public ResponseEntity<Void> onUserCreated(@Valid @RequestBody UserCreatedEventDTO dto) {
-        ticketBusiness.createOnboardingAndWorkstationTickets(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @PostMapping("/onboarding")
+    public ResponseEntity<String> createOnboardingTickets(@RequestParam Long userId, 
+                                                        @RequestParam String userName) {
+        try {
+            // Cria ticket de ONBOARDING
+            Ticket onboardingTicket = new Ticket();
+            onboardingTicket.setUserId(userId);
+            onboardingTicket.setType(TicketType.ONBOARDING);
+            onboardingTicket.setDescription("Realizar processo de onboarding do usuário: " + userName);
+            onboardingTicket.setStatus("OPEN");
+            onboardingTicket.setCreatedAt(LocalDateTime.now());
+            ticketRepository.save(onboardingTicket);
+
+            // Cria ticket de WORKSTATION
+            Ticket allocationTicket = new Ticket();
+            allocationTicket.setUserId(userId);
+            allocationTicket.setType(TicketType.WORKSTATION);
+            allocationTicket.setDescription("Alocar estação de trabalho para o usuário: " + userName);
+            allocationTicket.setStatus("OPEN");
+            allocationTicket.setCreatedAt(LocalDateTime.now());
+            ticketRepository.save(allocationTicket);
+
+            return ResponseEntity.ok("Tickets de onboarding criados com sucesso para: " + userName);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao criar tickets: " + e.getMessage());
+        }
     }
-
-    // Se quiser, você pode expor um GET simples para teste:
-    // curl -i http://localhost:8080/tickets/ping
-    @GetMapping("/ping")
-    public ResponseEntity<String> ping() {
-        return ResponseEntity.ok("ms-ticket OK");
-    }
-
-    // Aqui você pode futuramente colocar endpoints de CRUD de ticket, por exemplo:
-    //
-    // @GetMapping
-    // public ResponseEntity<List<TicketDTO>> listAll() { ... }
-    //
-    // @PostMapping
-    // public ResponseEntity<TicketDTO> createTicket(@RequestBody TicketDTO dto) {
-    // ... }
-}*/
-
-
-
-   package com.example.msticket.controller;
-
-   import com.example.msticket.controller.dto.UserCreatedEventDTO;
-   import com.example.msticket.domain.TicketBusiness;
-   import org.springframework.http.HttpStatus;
-   import org.springframework.http.ResponseEntity;
-   import org.springframework.web.bind.annotation.*;
-
-   @RestController
-   @RequestMapping("/tickets")
-   public class TicketController {
-
-       private final TicketBusiness ticketBusiness;
-
-       public TicketController(TicketBusiness ticketBusiness) {
-           this.ticketBusiness = ticketBusiness;
-       }
-
-       // chamado pelo ms-user quando um novo usuário é criado
-       @PostMapping("/user-created")
-       public ResponseEntity<Void> onUserCreated(@RequestBody UserCreatedEventDTO dto) {
-           ticketBusiness.createOnboardingAndWorkstationTickets(dto);
-           return ResponseEntity.status(HttpStatus.CREATED).build();
-       }
-
-       // endpoint só para teste rápido
-       @GetMapping("/ping")
-       public ResponseEntity<String> ping() {
-           return ResponseEntity.ok("ms-ticket OK");
-       }
-   }
+}

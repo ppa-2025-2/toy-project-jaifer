@@ -1,15 +1,5 @@
 package com.example.msticket.controller.dto;
 
-//import java.sql.Date;
-
-/*
- * -- C -> Mother of All Languages
- * -- Turing Complete Language
- * -- LINGUAGEM DECLARATIVA (linguagem de pedidos)
- * CREATE TABLE users (
- *      name VARCHAR(20) NOT NULL CHECK LEN(name) >= 3 
- * )
- */
 
 import java.util.List;
 
@@ -20,7 +10,7 @@ import com.example.msticket.repository.entity.Profile;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-//import jakarta.validation.constraints.Pattern;
+
 
 public record NewUserDTO(
         @NotNull(message = "O nome é obrigatório")

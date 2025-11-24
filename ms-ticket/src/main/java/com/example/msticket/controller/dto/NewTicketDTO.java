@@ -3,25 +3,15 @@ package com.example.msticket.controller.dto;
 import java.sql.Date;
 import java.util.HashSet;
 
-/*
- * -- C -> Mother of All Languages
- * -- Turing Complete Language
- * -- LINGUAGEM DECLARATIVA (linguagem de pedidos)
- * CREATE TABLE users (
- *      name VARCHAR(20) NOT NULL CHECK LEN(name) >= 3 
- * )
- */
 
-//import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.example.msticket.repository.entity.User;
 
-//import jakarta.validation.constraints.Email;
-//import jakarta.validation.constraints.NotBlank;
+
 import jakarta.validation.constraints.NotNull;
-//import jakarta.validation.constraints.Pattern;
+
 
 public record NewTicketDTO(
         @NotNull(message = "detalhes é obrigatório")

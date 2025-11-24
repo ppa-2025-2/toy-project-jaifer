@@ -45,5 +45,5 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 bootRun {
-    mainClass = 'com.example.msticket.MsTicketApplication'
+    mainClass = 'com.example.msuser.MsUserApplication'
 }

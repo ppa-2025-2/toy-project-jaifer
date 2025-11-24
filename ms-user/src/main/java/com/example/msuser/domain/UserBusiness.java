@@ -1,4 +1,4 @@
-package com.example.msuser.domain;
+/*package com.example.msuser.domain;
 
 import com.example.msuser.client.TicketClient;
 import com.example.msuser.client.dto.UserCreatedEventDTO;
@@ -33,5 +33,39 @@ public class UserBusiness {
         ticketClient.notifyUserCreated(event);
 
         return saved;
+    }
+}
+*/
+package com.example.msuser.domain;
+
+import com.example.msuser.client.TicketClient;
+import com.example.msuser.repository.UserRepository;
+import com.example.msuser.repository.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserBusiness {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TicketClient ticketClient;
+
+    public User createUser(User user) {
+        User savedUser = userRepository.save(user);
+        
+        // ⭐ CHAMA O CLIENTE PARA CRIAR TICKETS ⭐
+        ticketClient.createOnboardingTickets(savedUser.getId(), savedUser.getName());
+        
+        return savedUser;
+    }
+
+    // ⭐ ADICIONE ESTE MÉTODO ⭐
+    public List<User> listUsers() {
+        return userRepository.findAll();
     }
 }

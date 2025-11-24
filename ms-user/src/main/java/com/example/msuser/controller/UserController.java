@@ -1,4 +1,4 @@
-package com.example.msuser.controller;
+/*package com.example.msuser.controller;
 
 import com.example.msuser.domain.UserBusiness;
 import com.example.msuser.repository.entity.User;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * Controller REST do ms-user.
  * Responsável por receber requisições HTTP relacionadas a usuários.
  */
-@RestController
+/*@RestController
 @RequestMapping("/users")
 public class UserController {
 
@@ -30,7 +30,7 @@ public class UserController {
      * - chama o ms-ticket para criar os dois tickets (onboarding e workstation)
      * 3) Retorna 201 (Created) com o usuário salvo no corpo.
      */
-    @PostMapping
+   /* @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User saved = userBusiness.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
@@ -41,4 +41,30 @@ public class UserController {
     // - GET /users/{id}
     // - PUT /users/{id}
     // - DELETE /users/{id}
+}*/
+package com.example.msuser.controller;
+
+import com.example.msuser.domain.UserBusiness;
+import com.example.msuser.repository.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserBusiness userBusiness;
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userBusiness.createUser(user);
+    }
+
+    @GetMapping
+    public List<User> listUsers() {
+        return userBusiness.listUsers();
+    }
 }
